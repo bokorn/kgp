@@ -42,7 +42,7 @@ def standardize_data(X_train, X_test, X_valid):
     return X_train, X_test, X_valid
 
 def initCovSM(Q, D):
-    w0 = np.log(np.ones((Q,1)))
+    w0 = np.log(np.ones((Q,1), dtype=float))
     mu = np.log(np.maximum(0.05*np.random.rand(Q*D,1),1e-8))
     v = np.log(np.abs(np.random.randn(Q*D,1) + 1))
     return [[w0], [mu], [v]]
@@ -58,7 +58,6 @@ def assemble_mlp(input_shape, output_shape, batch_size, nb_train_samples):
     hidden = Dense(64, activation='relu', name='dense3')(hidden)
     hidden = Dropout(0.25)(hidden)
     hidden = Dense(2, activation='relu', name='dense4')(hidden)
-    
     gp = GP(hyp={
                 'lik': np.log(0.3),
                 'mean': np.zeros((2,1)).tolist() + [[0]],
@@ -100,7 +99,6 @@ def main():
                          nb_train_samples=len(X_train))
     loss = [gen_gp_loss(gp) for gp in model.output_layers]
     model.compile(optimizer=Adam(1e-4), loss=loss)
-
     # Load saved weights (if exist)
     if os.path.isfile('checkpoints/msgp_sm_kernel_mlp_kin40k.h5'):
         model.load_weights('checkpoints/msgp_sm_kernel_mlp_kin40k.h5', by_name=True)

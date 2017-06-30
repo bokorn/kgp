@@ -18,10 +18,10 @@ if 'GP_ENGINE' in os.environ:
 else:
     os.environ['GP_ENGINE'] = _ENGINE
 
-if _ENGINE == 'matlab':
-    if sys.version_info[0] > 2:
-        raise ImportError('MATLAB engine does not support Python 3.x. '
-                          'Please switch to Octave engine or use Python 2.x.')
+#if _ENGINE == 'matlab':
+#    if sys.version_info[0] > 2:
+#        raise ImportError('MATLAB engine does not support Python 3.x. '
+#                          'Please switch to Octave engine or use Python 2.x.')
 
 if _BACKEND == 'gpml':
     sys.stderr.write('Using GPML backend with ')
